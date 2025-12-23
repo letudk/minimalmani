@@ -115,7 +115,7 @@ a.custom-logo-link img {
 }
 
 .hero-section h1 {
-    font-size: 48px;
+    font-size: 40px;
     font-weight: 300;
     margin-bottom: 20px;
     letter-spacing: -0.5px;
@@ -582,7 +582,7 @@ a.custom-logo-link img {
 
 /* Table of Contents */
 .table-of-contents {
-    padding: 40px 0;
+    padding: 10px 0;
     background: var(--soft-blush);
 }
 
