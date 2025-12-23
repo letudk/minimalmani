@@ -30,22 +30,38 @@
     </header>
 
     <!-- Post Intro -->
-    <section class="post-intro">
+    <!-- <section class="post-intro">
         <div class="container-narrow">
             <?php
             // Get first 2-3 paragraphs as intro
-            $content = get_the_content();
-            $paragraphs = explode('</p>', $content);
-            $intro = '';
-            for ($i = 0; $i < min(3, count($paragraphs)); $i++) {
-                if (trim(strip_tags($paragraphs[$i]))) {
-                    $intro .= $paragraphs[$i] . '</p>';
-                }
-            }
-            echo wpautop($intro);
+            // $content = get_the_content();
+            // $paragraphs = explode('</p>', $content);
+            // $intro = '';
+            // for ($i = 0; $i < min(3, count($paragraphs)); $i++) {
+            //     if (trim(strip_tags($paragraphs[$i]))) {
+            //         $intro .= $paragraphs[$i] . '</p>';
+            //     }
+            // }
+            // echo wpautop($intro);
             ?>
         </div>
-    </section>
+    </section> -->
+
+<section class="post-intro">
+    <div class="container-narrow">
+        <?php
+        $content = get_the_content();
+        $paragraphs = explode('</p>', $content);
+        $intro = '';
+
+        if (!empty($paragraphs[0]) && trim(strip_tags($paragraphs[0]))) {
+            $intro = $paragraphs[0] . '</p>';
+        }
+
+        echo wpautop($intro);
+        ?>
+    </div>
+</section>
 
     <!-- Table of Contents -->
     <?php if (minimal_nails_has_headings()) : ?>
