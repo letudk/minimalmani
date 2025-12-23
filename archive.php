@@ -119,7 +119,18 @@ endif;
         </div>
     </div>
 </section>
-
+<!-- Pagination -->
+<div class="container">
+    <div class="archive-pagination">
+        <?php
+        the_posts_pagination(array(
+            'mid_size'  => 2,
+            'prev_text' => __('← Older posts', 'minimal-nails'),
+            'next_text' => __('Newer posts →', 'minimal-nails'),
+        ));
+        ?>
+    </div>
+</div>
 <!-- FAQ Block -->
 <?php
 // Get FAQ from category meta or default FAQs
@@ -174,17 +185,6 @@ if (!empty($faqs)) :
 </section>
 <?php endif; ?>
 
-<!-- Pagination -->
-<div class="container">
-    <div class="archive-pagination">
-        <?php
-        the_posts_pagination(array(
-            'mid_size'  => 2,
-            'prev_text' => __('← Older posts', 'minimal-nails'),
-            'next_text' => __('Newer posts →', 'minimal-nails'),
-        ));
-        ?>
-    </div>
-</div>
+
 
 <?php get_footer(); ?>
