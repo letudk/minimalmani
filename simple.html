@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Nail Ideas & Press-On Nail Guides</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --nude-beige: #EDE6DE;
+            --soft-blush: #F3DCDC;
+            --warm-taupe: #8B7E74;
+            --charcoal-grey: #3A3A3A;
+            --off-white: #FAFAF8;
+            --text-medium: #6B6B6B;
+            --text-light: #8A8A8A;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: var(--charcoal-grey);
+            background: var(--off-white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: #fff;
+            border-bottom: 1px solid var(--nude-beige);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--warm-taupe);
+            text-transform: uppercase;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--warm-taupe);
+            cursor: pointer;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 35px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-medium);
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--warm-taupe);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(180deg, var(--nude-beige) 0%, var(--off-white) 100%);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+            color: var(--charcoal-grey);
+        }
+
+        .hero-subtext {
+            font-size: 18px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        .hero-image {
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        /* Featured Categories */
+        .categories {
+            padding: 80px 0;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .category-box {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--soft-blush);
+            border-radius: 4px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .category-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139, 126, 116, 0.15);
+            background: var(--nude-beige);
+        }
+
+        .category-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: var(--warm-taupe);
+        }
+
+        .category-box h3 {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            color: var(--charcoal-grey);
+        }
+
+        /* Latest Articles */
+        .articles {
+            padding: 80px 0;
+            background: var(--off-white);
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 60px;
+            letter-spacing: 1px;
+            color: var(--charcoal-grey);
+        }
+
+        .article-list {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .article-item {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--nude-beige);
+        }
+
+        .article-item:last-child {
+            border-bottom: none;
+        }
+
+        .article-category {
+            display: inline-block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--warm-taupe);
+            margin-bottom: 10px;
+        }
+
+        .article-item h3 {
+            font-size: 26px;
+            font-weight: 400;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            color: var(--charcoal-grey);
+        }
+
+        .article-excerpt {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .read-more {
+            color: var(--warm-taupe);
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        .read-more:hover {
+            opacity: 0.7;
+        }
+
+        /* Trust Statement */
+        .trust {
+            padding: 80px 0;
+            background: var(--nude-beige);
+            text-align: center;
+        }
+
+        .trust-content {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 24px;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--warm-taupe);
+        }
+
+        /* Trending */
+        .trending {
+            padding: 80px 0;
+        }
+
+        .trending-list {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .trending-item {
+            padding: 25px;
+            background: var(--soft-blush);
+            border-radius: 4px;
+            transition: transform 0.3s, background 0.3s;
+            cursor: pointer;
+        }
+
+        .trending-item:hover {
+            transform: translateX(5px);
+            background: var(--nude-beige);
+        }
+
+        .trending-item h4 {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--charcoal-grey);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--warm-taupe);
+            color: #f5f5f5;
+            padding: 60px 0 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-links a {
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--nude-beige);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 13px;
+            color: var(--nude-beige);
+            padding-top: 20px;
+            border-top: 1px solid rgba(237, 230, 222, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--off-white);
+                border-bottom: 1px solid var(--nude-beige);
+                padding: 20px 0;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+                padding: 0 20px;
+            }
+
+            nav ul li {
+                padding: 15px 0;
+                border-bottom: 1px solid var(--nude-beige);
+            }
+
+            nav ul li:last-child {
+                border-bottom: none;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero {
+                padding: 60px 0;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trending-list {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .article-item h3 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Minimal Nails</div>
+                <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+                <nav id="mainNav">
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#minimal">Minimal Nail Ideas</a></li>
+                        <li><a href="#press-on">Press-On Nails</a></li>
+                        <li><a href="#guides">Guides</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Minimal Nail Ideas & Press-On Nail Guides</h1>
+            <p class="hero-subtext">Clean, practical nail inspiration for everyday women.<br>Curated designs that work with your lifestyle, not against it.</p>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&h=400&fit=crop" alt="Woman with minimal nail design">
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Categories -->
+    <section class="categories">
+        <div class="container">
+            <div class="category-grid">
+                <div class="category-box">
+                    <div class="category-icon">✨</div>
+                    <h3>Minimal Nail Ideas</h3>
+                </div>
+                <div class="category-box">
+                    <div class="category-icon">💅</div>
+                    <h3>Press-On Nails</h3>
+                </div>
+                <div class="category-box">
+                    <div class="category-icon">📖</div>
+                    <h3>Nail Guides</h3>
+                </div>
+                <div class="category-box">
+                    <div class="category-icon">⭐</div>
+                    <h3>Best Press-On Nails</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Articles -->
+    <section class="articles">
+        <div class="container">
+            <h2 class="section-title">Latest Articles</h2>
+            <div class="article-list">
+                <article class="article-item">
+                    <span class="article-category">Minimal Nail Ideas</span>
+                    <h3>15 Understated Nail Designs for Professional Settings</h3>
+                    <p class="article-excerpt">Office-appropriate nail designs that look polished without being distracting. From subtle french tips to neutral tones that work with every outfit in your wardrobe.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </article>
+
+                <article class="article-item">
+                    <span class="article-category">Press-On Nails</span>
+                    <h3>How to Make Press-On Nails Last 2+ Weeks: Complete Guide</h3>
+                    <p class="article-excerpt">The exact prep routine and application technique I use to keep press-ons looking salon-fresh for weeks. Plus troubleshooting tips for common issues.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </article>
+
+                <article class="article-item">
+                    <span class="article-category">Guides</span>
+                    <h3>Finding Your Perfect Nail Shape: A Practical Guide</h3>
+                    <p class="article-excerpt">How to choose a nail shape based on your nail bed, finger shape, and lifestyle. Real examples and honest pros and cons for each style.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </article>
+
+                <article class="article-item">
+                    <span class="article-category">Best Press-On Nails</span>
+                    <h3>8 Press-On Nail Brands Actually Worth Your Money</h3>
+                    <p class="article-excerpt">After testing 30+ brands, these are the ones that deliver on quality, fit, and durability. No affiliate fluff—just honest reviews.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </article>
+
+                <article class="article-item">
+                    <span class="article-category">Minimal Nail Ideas</span>
+                    <h3>Neutral Nail Colors That Work Year-Round</h3>
+                    <p class="article-excerpt">Build a capsule collection of versatile nail shades. These classics transition seamlessly from season to season without looking dated.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </article>
+
+                <article class="article-item">
+                    <span class="article-category">Guides</span>
+                    <h3>The Real Cost of Salon vs. Press-On Nails</h3>
+                    <p class="article-excerpt">Breaking down the actual costs over 6 months, including time, maintenance, and quality. The numbers might surprise you.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </article>
+
+                <article class="article-item">
+                    <span class="article-category">Press-On Nails</span>
+                    <h3>How to Safely Remove Press-Ons Without Damage</h3>
+                    <p class="article-excerpt">The gentle removal method that protects your natural nails. Plus what to do if you've been doing it wrong until now.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </article>
+
+                <article class="article-item">
+                    <span class="article-category">Minimal Nail Ideas</span>
+                    <h3>10 Simple Nail Designs You Can Actually Do Yourself</h3>
+                    <p class="article-excerpt">No artistic skills required. These minimal designs look intentional and polished, even if you're working with your non-dominant hand.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Statement -->
+    <section class="trust">
+        <div class="container">
+            <div class="trust-content">
+                "Researched, tested, and curated for everyday use"
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending -->
+    <section class="trending">
+        <div class="container">
+            <h2 class="section-title">Trending Now</h2>
+            <div class="trending-list">
+                <div class="trending-item">
+                    <h4>Short Almond Nails: The Most Practical Shape</h4>
+                </div>
+                <div class="trending-item">
+                    <h4>Glazed Donut Nails at Home</h4>
+                </div>
+                <div class="trending-item">
+                    <h4>Press-On Sizing Guide for Every Brand</h4>
+                </div>
+                <div class="trending-item">
+                    <h4>Matte vs. Glossy: What Actually Lasts Longer</h4>
+                </div>
+                <div class="trending-item">
+                    <h4>Best Base Coats for Weak Nails</h4>
+                </div>
+                <div class="trending-item">
+                    <h4>Minimalist French Tip Variations</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#privacy">Privacy</a>
+                <a href="#affiliate">Affiliate Disclosure</a>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Minimal Nails. All content researched and curated for everyday use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('mainNav');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (!nav.contains(event.target) && !menuBtn.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.getElementById('mainNav').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
