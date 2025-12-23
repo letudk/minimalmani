@@ -77,28 +77,38 @@ endif;
                 while (have_posts()) : the_post();
             ?>
             <article class="article-item" id="post-<?php the_ID(); ?>">
-                <?php
-                $categories = get_the_category();
-                if (!empty($categories)) :
-                ?>
-                <a href="<?php echo esc_url(get_category_link($categories[0]->term_id)); ?>" class="article-category">
-                    <?php echo esc_html($categories[0]->name); ?>
-                </a>
+                <?php if (has_post_thumbnail()) : ?>
+                <div class="article-thumbnail">
+                    <a href="<?php the_permalink(); ?>">
+                        <?php the_post_thumbnail('medium'); ?>
+                    </a>
+                </div>
                 <?php endif; ?>
                 
-                <h2 class="article-title">
-                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                </h2>
-                
-                <p class="article-excerpt"><?php echo wp_trim_words(get_the_excerpt(), 30); ?></p>
-                
-                <div class="article-meta">
-                    <time datetime="<?php echo get_the_date('c'); ?>">
-                        <?php echo get_the_date(); ?>
-                    </time>
+                <div class="article-content">
+                    <?php
+                    $categories = get_the_category();
+                    if (!empty($categories)) :
+                    ?>
+                    <a href="<?php echo esc_url(get_category_link($categories[0]->term_id)); ?>" class="article-category">
+                        <?php echo esc_html($categories[0]->name); ?>
+                    </a>
+                    <?php endif; ?>
+                    
+                    <h2 class="article-title">
+                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                    </h2>
+                    
+                    <p class="article-excerpt"><?php echo wp_trim_words(get_the_excerpt(), 30); ?></p>
+                    
+                    <div class="article-meta">
+                        <time datetime="<?php echo get_the_date('c'); ?>">
+                            <?php echo get_the_date(); ?>
+                        </time>
+                    </div>
+                    
+                    <a href="<?php the_permalink(); ?>" class="read-more"><?php _e('Read more →', 'minimal-nails'); ?></a>
                 </div>
-                
-                <a href="<?php the_permalink(); ?>" class="read-more"><?php _e('Read more →', 'minimal-nails'); ?></a>
             </article>
             <?php
                 endwhile;

@@ -2,6 +2,9 @@
 /**
  * Minimal Nails Theme Functions
  */
+// Disable Gutenberg and force Classic Editor
+add_filter('use_block_editor_for_post', '__return_false', 10);
+add_filter('use_block_editor_for_post_type', '__return_false', 10);
 
 // Theme Setup
 function minimal_nails_setup() {
@@ -36,11 +39,11 @@ add_action('after_setup_theme', 'minimal_nails_setup');
 
 // Enqueue scripts and styles
 function minimal_nails_scripts() {
-    wp_enqueue_style('minimal-nails-style', get_stylesheet_uri(), array(), '1.0.0');
-    wp_enqueue_script('minimal-nails-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), '1.0.0', true);
+    wp_enqueue_style('minimal-nails-style', get_stylesheet_uri(), array(), '1.1.0');
+    wp_enqueue_script('minimal-nails-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), '1.1.0', true);
      // Back to top script for single posts
     if (is_single()) {
-        wp_enqueue_script('minimal-nails-back-to-top', get_template_directory_uri() . '/assets/js/back-to-top.js', array(), '1.0.0', true);
+        wp_enqueue_script('minimal-nails-back-to-top', get_template_directory_uri() . '/assets/js/back-to-top.js', array(), '1.1.0', true);
     }
 }
 add_action('wp_enqueue_scripts', 'minimal_nails_scripts');

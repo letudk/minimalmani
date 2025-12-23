@@ -1,4 +1,3 @@
-
 <?php get_header(); ?>
 
 <!-- Hero Section -->
@@ -9,7 +8,8 @@
         
         <?php if (get_theme_mod('hero_image')) : ?>
         <div class="hero-image">
-            <img src="<?php echo esc_url(wp_get_attachment_image_url(get_theme_mod('hero_image'), 'full')); ?>" alt="<?php echo esc_html(get_theme_mod('hero_title', 'Minimal Nail Ideas & Press-On Nail Guides')); ?>" width="800px" height="400px" />
+            <img src="<?php echo esc_url(wp_get_attachment_image_url(get_theme_mod('hero_image'), 'full')); ?>"
+                alt="<?php echo esc_html(get_theme_mod('hero_title', 'Minimal Nail Ideas & Press-On Nail Guides')); ?>" width="800" height="400"   />
         </div>
         <?php endif; ?>
     </div>
@@ -21,7 +21,7 @@
         <div class="category-grid">
             <?php
             $categories = get_categories(array('number' => 4));
-            $icons = array('✨', '💅', '📖', '⭐');
+            $icons = array('✨', '📖', '💅', '⭐');
             $i = 0;
             
             foreach ($categories as $category) :
@@ -49,20 +49,30 @@
                 while (have_posts()) : the_post();
             ?>
             <article class="article-item">
-                <?php
-                $categories = get_the_category();
-                if (!empty($categories)) :
-                ?>
-                <a href="<?php echo esc_url(get_category_link($categories[0]->term_id)); ?>" class="article-category">
-                    <?php echo esc_html($categories[0]->name); ?>
-                </a>
+                <?php if (has_post_thumbnail()) : ?>
+                <div class="article-thumbnail">
+                    <a href="<?php the_permalink(); ?>">
+                        <?php the_post_thumbnail('medium'); ?>
+                    </a>
+                </div>
                 <?php endif; ?>
                 
-                <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                
-                <p class="article-excerpt"><?php echo wp_trim_words(get_the_excerpt(), 30); ?></p>
-                
-                <a href="<?php the_permalink(); ?>" class="read-more"><?php _e('Read more →', 'minimal-nails'); ?></a>
+                <div class="article-content">
+                    <?php
+                    $categories = get_the_category();
+                    if (!empty($categories)) :
+                    ?>
+                    <a href="<?php echo esc_url(get_category_link($categories[0]->term_id)); ?>" class="article-category">
+                        <?php echo esc_html($categories[0]->name); ?>
+                    </a>
+                    <?php endif; ?>
+                    
+                    <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                    
+                    <p class="article-excerpt"><?php echo wp_trim_words(get_the_excerpt(), 30); ?></p>
+                    
+                    <a href="<?php the_permalink(); ?>" class="read-more"><?php _e('Read more →', 'minimal-nails'); ?></a>
+                </div>
             </article>
             <?php
                 endwhile;
@@ -92,6 +102,3 @@
 </section>
 
 <?php get_footer(); ?>
-
-
-
