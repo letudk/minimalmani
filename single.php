@@ -26,32 +26,28 @@
                     <?php echo minimal_nails_reading_time(); ?> <?php _e('min read', 'minimal-nails'); ?>
                 </span>
             </div>
+            
+            <!-- Table of Contents -->
+            <?php 
+            // Get full content to check for headings and generate TOC
+            $full_content = get_the_content();
+            $full_content = apply_filters('the_content', $full_content);
+            
+            if (minimal_nails_has_headings($full_content)) : 
+            ?>
+            <div class="table-of-contents-wrapper">
+                <?php echo minimal_nails_generate_toc($full_content); ?>
+            </div>
+            <?php endif; ?>
         </div>
     </header>
-
-    <!-- Post Intro -->
-    <!-- <section class="post-intro">
-        <div class="container-narrow">
-            <?php
-            // Get first 2-3 paragraphs as intro
-            // $content = get_the_content();
-            // $paragraphs = explode('</p>', $content);
-            // $intro = '';
-            // for ($i = 0; $i < min(3, count($paragraphs)); $i++) {
-            //     if (trim(strip_tags($paragraphs[$i]))) {
-            //         $intro .= $paragraphs[$i] . '</p>';
-            //     }
-            // }
-            // echo wpautop($intro);
-            ?>
-        </div>
-    </section> -->
 
 <section class="post-intro">
     <div class="container-narrow">
         <?php
-        $content = get_the_content();
-        $paragraphs = explode('</p>', $content);
+        // Get raw content and extract intro
+        $raw_content = get_the_content();
+        $paragraphs = explode('</p>', $raw_content);
         $intro = '';
 
         if (!empty($paragraphs[0]) && trim(strip_tags($paragraphs[0]))) {
@@ -63,33 +59,34 @@
     </div>
 </section>
 
-    <!-- Table of Contents -->
-    <?php if (minimal_nails_has_headings()) : ?>
-    <aside class="table-of-contents">
-        <div class="container-narrow">
-            <?php echo minimal_nails_generate_toc(); ?>
-        </div>
-    </aside>
-    <?php endif; ?>
-
     <!-- Post Content -->
     <div class="post-content">
         <div class="container-narrow">
             <?php
-            // Remove intro paragraphs from main content
+            // Get full content and apply filters FIRST to add IDs to all H2 headings
+            $full_processed_content = get_the_content();
+            $full_processed_content = apply_filters('the_content', $full_processed_content);
+            
+            // Now split the processed content for display
+            $processed_paragraphs = explode('</p>', $full_processed_content);
             $remaining_content = '';
-            for ($i = 3; $i < count($paragraphs); $i++) {
-                $remaining_content .= $paragraphs[$i];
+            
+            // Skip first 3 paragraphs (used for intro)
+            for ($i = 3; $i < count($processed_paragraphs); $i++) {
+                $remaining_content .= $processed_paragraphs[$i];
             }
             
-            // Add AdSense after 2nd H2 (optional)
+            // Add AdSense after 2nd H2 (optional) - this works with IDs already added
             $remaining_content = minimal_nails_insert_adsense($remaining_content);
             
-            echo apply_filters('the_content', $remaining_content);
+            echo $remaining_content;
             ?>
         </div>
     </div>
 
+    <!-- Best Products Section -->
+    <?php echo minimal_nails_display_best_products(); ?>
+    
     <!-- Related Posts -->
     <?php
     $related_posts = minimal_nails_get_related_posts(get_the_ID(), 6);
@@ -132,6 +129,9 @@
         </div>
     </section>
     <?php endif; ?>
+    
+    <!-- You May Also Like Products -->
+    <?php echo minimal_nails_display_you_may_also_like(); ?>
 
     <!-- Conclusion / CTA -->
     <section class="post-conclusion">

@@ -2,6 +2,9 @@
 /**
  * Minimal Nails Theme Functions
  */
+if (!defined('ABSPATH')) {
+    exit;
+}
 // Disable Gutenberg and force Classic Editor
 add_filter('use_block_editor_for_post', '__return_false', 10);
 add_filter('use_block_editor_for_post_type', '__return_false', 10);
@@ -39,7 +42,9 @@ add_action('after_setup_theme', 'minimal_nails_setup');
 
 // Enqueue scripts and styles
 function minimal_nails_scripts() {
-    wp_enqueue_style('minimal-nails-style', get_stylesheet_uri(), array(), '1.1.0');
+    wp_enqueue_style('minimal-nails-style', get_stylesheet_uri(), array(), '1.2.0');
+    wp_enqueue_style('minimal-nails-amazon-products', get_template_directory_uri() . '/assets/css/amazon-products.css', array('minimal-nails-style'), '1.0.0');
+    wp_enqueue_style('minimal-nails-print', get_template_directory_uri() . '/assets/css/print.css', array(), '1.0.0', 'print');
     wp_enqueue_script('minimal-nails-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), '1.1.0', true);
      // Back to top script for single posts
     if (is_single()) {
@@ -230,28 +235,53 @@ function minimal_nails_reading_time() {
 }
 
 // Check if post has H2 headings
-function minimal_nails_has_headings() {
-    $content = get_the_content();
+function minimal_nails_has_headings($content = null) {
+    if ($content === null) {
+        $content = get_the_content();
+    }
     return preg_match('/<h2[^>]*>.*?<\/h2>/i', $content);
 }
 
 // Generate Table of Contents
-function minimal_nails_generate_toc() {
-    $content = get_the_content();
-    preg_match_all('/<h2[^>]*>(.*?)<\/h2>/i', $content, $matches);
+function minimal_nails_generate_toc($content = null) {
+    if ($content === null) {
+        global $post;
+        if (!$post) {
+            return '';
+        }
+        // Get processed content with IDs already added
+        $content = apply_filters('the_content', get_the_content());
+    }
     
-    if (empty($matches[1])) {
+    // Extract H2 headings with their IDs
+    preg_match_all('/<h2([^>]*)>(.*?)<\/h2>/i', $content, $matches, PREG_SET_ORDER);
+    
+    if (empty($matches)) {
         return '';
     }
     
     $toc = '<div class="table-of-contents">';
     $toc .= '<h2 class="toc-title">' . __('Table of Contents', 'minimal-nails') . '</h2>';
     $toc .= '<ol class="toc-list">';
-    foreach ($matches[1] as $index => $heading) {
-        $heading_text = strip_tags($heading);
-        $heading_id = sanitize_title($heading_text);
-        $toc .= '<li><a href="#' . $heading_id . '">' . $heading_text . '</a></li>';
+    
+    foreach ($matches as $match) {
+        $heading_text = strip_tags($match[2]);
+        if (empty($heading_text)) {
+            continue;
+        }
+        
+        // Try to extract existing ID from attributes
+        $heading_id = '';
+        if (preg_match('/id=["\']([^"\']+)["\']/', $match[1], $id_match)) {
+            $heading_id = $id_match[1];
+        } else {
+            // Generate ID from heading text
+            $heading_id = sanitize_title($heading_text);
+        }
+        
+        $toc .= '<li><a href="#' . esc_attr($heading_id) . '">' . esc_html($heading_text) . '</a></li>';
     }
+    
     $toc .= '</ol>';
     $toc .= '</div>';
     
@@ -278,21 +308,50 @@ function minimal_nails_add_heading_ids($content) {
         return $content;
     }
     
-    $content = preg_replace_callback('/<h2([^>]*)>(.*?)<\/h2>/i', function($matches) {
+    // Track used IDs per post to avoid duplicates
+    static $processed_posts = array();
+    $post_id = get_the_ID();
+    
+    // Initialize used_ids for this post if not already set
+    if (!isset($processed_posts[$post_id])) {
+        $processed_posts[$post_id] = array();
+    }
+    
+    $used_ids = &$processed_posts[$post_id];
+    
+    $content = preg_replace_callback('/<h2([^>]*)>(.*?)<\/h2>/i', function($matches) use (&$used_ids) {
         $heading_text = strip_tags($matches[2]);
-        $heading_id = sanitize_title($heading_text);
-        
-        // Check if ID already exists
-        if (strpos($matches[1], 'id=') !== false) {
+        if (empty($heading_text)) {
             return $matches[0];
         }
         
-        return '<h2' . $matches[1] . ' id="' . $heading_id . '">' . $matches[2] . '</h2>';
+        // Check if ID already exists
+        if (preg_match('/id=["\']([^"\']+)["\']/', $matches[1], $id_match)) {
+            $existing_id = $id_match[1];
+            if (!in_array($existing_id, $used_ids)) {
+                $used_ids[] = $existing_id;
+            }
+            return $matches[0];
+        }
+        
+        // Generate unique ID
+        $heading_id = sanitize_title($heading_text);
+        $original_id = $heading_id;
+        $counter = 1;
+        
+        // Make sure ID is unique
+        while (in_array($heading_id, $used_ids)) {
+            $heading_id = $original_id . '-' . $counter;
+            $counter++;
+        }
+        $used_ids[] = $heading_id;
+        
+        return '<h2' . $matches[1] . ' id="' . esc_attr($heading_id) . '">' . $matches[2] . '</h2>';
     }, $content);
     
     return $content;
 }
-add_filter('the_content', 'minimal_nails_add_heading_ids');
+add_filter('the_content', 'minimal_nails_add_heading_ids', 20);
 
 // Get related posts by category
 function minimal_nails_get_related_posts($post_id, $limit = 6) {
@@ -373,3 +432,30 @@ function minimal_nails_contact_customizer($wp_customize) {
     ));
 }
 add_action('customize_register', 'minimal_nails_contact_customizer');
+
+// Include Amazon Products Functions
+require_once get_template_directory() . '/includes/amazon-products.php';
+
+// Include Affiliate Disclosure Functions
+require_once get_template_directory() . '/includes/affiliate-disclosure.php';
+
+// Include Product Taxonomy
+require_once get_template_directory() . '/includes/product-taxonomy.php';
+
+// Include Widgets
+require_once get_template_directory() . '/includes/widgets.php';
+
+// Include Product Carousel
+require_once get_template_directory() . '/includes/product-carousel.php';
+
+// Include Schema Markup
+require_once get_template_directory() . '/includes/schema-markup.php';
+
+// Include Newsletter and Social Share
+require_once get_template_directory() . '/includes/newsletter-social.php';
+
+// Include Video Integration
+require_once get_template_directory() . '/includes/video-integration.php';
+
+// Include You May Also Like
+require_once get_template_directory() . '/includes/you-may-also-like.php';

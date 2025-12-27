@@ -26,7 +26,7 @@
                 ?>
             </div>
             
-            <button class="mobile-menu-btn" id="mobile-menu-toggle">☰</button>
+
             
             <nav class="main-navigation" id="main-nav">
                 <?php
@@ -37,6 +37,20 @@
                 ));
                 ?>
             </nav>
+            <div class="header-actions">
+                <button class="search-toggle-btn" id="search-toggle" aria-label="Search">
+                    <span class="search-icon">🔍</span>
+                </button>
+                <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Menu">☰</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-overlay-content">
+            <button class="search-close" id="search-close" aria-label="Close search">×</button>
+            <?php get_search_form(); ?>
         </div>
     </div>
 </header>
